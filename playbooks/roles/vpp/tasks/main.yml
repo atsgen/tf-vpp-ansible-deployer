@@ -1,0 +1,7 @@
+---
+- name: create contrail vpp for Linux
+  include_role:
+    name: contrail_vpp
+  when: roles[instance_name].vpp is defined and ansible_system == 'Linux'
+  tags:
+    - vpp
