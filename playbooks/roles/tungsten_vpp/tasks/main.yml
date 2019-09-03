@@ -101,7 +101,7 @@
 
 - name: create contrail vpp compose file
   template:
-    src: contrail-vpp.yaml.j2
+    src: tungsten-vpp.yaml.j2
     dest: "/etc/contrail/vpp/docker-compose.yaml"
   when: roles[instance_name].vpp.AGENT_MODE is undefined or roles[instance_name].vpp.AGENT_MODE != 'dpdk'
 
@@ -125,7 +125,7 @@
 
 - name: "create contrail dpdk vpp compose file"
   template:
-    src: contrail-vpp-dpdk.yaml.j2
+    src: tungsten-vpp-dpdk.yaml.j2
     dest: "/etc/contrail/vpp/docker-compose.yaml"
   when: roles[instance_name].vpp.AGENT_MODE is defined and roles[instance_name].vpp.AGENT_MODE == 'dpdk'
 

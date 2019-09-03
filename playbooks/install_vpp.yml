@@ -1,6 +1,6 @@
 # orchestrator MUST be passed as a command line argument like so:
 #
-# ansible-playbook -i inventory/ -e orchestrator=openstack playbook/install_contrail.yml
+# ansible-playbook -i inventory/ -e orchestrator=openstack playbook/install_vpp.yml
 #
 - name: Create container host group and evaluate variables for Contrail
   hosts: localhost
