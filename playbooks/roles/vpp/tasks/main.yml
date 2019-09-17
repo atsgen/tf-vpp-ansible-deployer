@@ -1,4 +1,11 @@
 ---
+- name: Read k8s token for Contrail
+  include_role:
+    name: vpp_k8s
+  when: roles[instance_name].k8s_master is defined and k8s_master_name is defined and inventory_hostname == k8s_master_name
+  tags:
+    - k8s
+
 - name: create Tungsten Fabric Vpp for Linux
   include_role:
     name: tungsten_vpp
