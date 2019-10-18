@@ -93,46 +93,20 @@
   with_items:
     - contrail-node-init
     - contrail-nodemgr
-    - contrail-vpp-kernel-init
-    - contrail-vpp-agent
+    - tungsten-vpp-init
+    - tungsten-vpp-datapath
+    - tungsten-vpp-agent
   when:
     - contrail_configuration.UPDATE_IMAGES is undefined or contrail_configuration.UPDATE_IMAGES != false
-    - roles[instance_name].vpp.AGENT_MODE is undefined or roles[instance_name].vpp.AGENT_MODE != 'dpdk'
 
 - name: create contrail vpp compose file
   template:
     src: tungsten-vpp.yaml.j2
     dest: "/etc/contrail/vpp/docker-compose.yaml"
-  when: roles[instance_name].vpp.AGENT_MODE is undefined or roles[instance_name].vpp.AGENT_MODE != 'dpdk'
 
 - name: "start contrail vpp"
   docker_service:
     project_src: /etc/contrail/vpp
-  when: roles[instance_name].vpp.AGENT_MODE is undefined or roles[instance_name].vpp.AGENT_MODE != 'dpdk'
-
-- name: update image for dpdk vpp
-  shell: "docker pull {{ container_registry }}/{{ item }}:{{ contrail_version_tag }}"
-  with_items:
-    - contrail-node-init
-    - contrail-nodemgr
-    - contrail-vpp-kernel-init-dpdk
-    - contrail-vpp-agent-dpdk
-    - contrail-vpp-agent
-  when:
-    - contrail_configuration.UPDATE_IMAGES is undefined or contrail_configuration.UPDATE_IMAGES != false
-    - roles[instance_name].vpp.AGENT_MODE is defined
-    - roles[instance_name].vpp.AGENT_MODE == 'dpdk'
-
-- name: "create contrail dpdk vpp compose file"
-  template:
-    src: tungsten-vpp-dpdk.yaml.j2
-    dest: "/etc/contrail/vpp/docker-compose.yaml"
-  when: roles[instance_name].vpp.AGENT_MODE is defined and roles[instance_name].vpp.AGENT_MODE == 'dpdk'
-
-- name: "start contrail dpdk vpp"
-  docker_service:
-    project_src: /etc/contrail/vpp
-  when: roles[instance_name].vpp.AGENT_MODE is defined and roles[instance_name].vpp.AGENT_MODE == 'dpdk'
 
 - name: "Restart nova-compute"
   shell: "docker restart nova_compute"
