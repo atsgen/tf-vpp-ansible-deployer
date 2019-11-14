@@ -32,6 +32,26 @@ ansible-playbook -e orchestrator=openstack -i inventory/ playbooks/install_vpp.y
 
 Note: you will need access to container images for deploying this solution
 
+### Setting up flavour and base image
+you can use atsgen/openstack-cli:latest container to use the openstack cli, to execute cli commands to create flavor and images
+```
+docker run -d --name openstack-cli \
+  -v /etc/kolla/kolla-toolbox/admin-openrc.sh:/admin-openrc.sh:ro \
+  -it atsgen/openstack-cli:latest
+```
+you can connect to container using exec :
+```
+docker exec -it openstack-cli bash
+```
+vpp is dpdk based and hence needs huge pages backed flavors
+```
+source /admin-openrc.sh
+openstack flavor create --ram 512 --disk 1 --vcpus 1 dpdk.tiny
+nova flavor-key dpdk.tiny set hw:mem_page_size=large
+openstack image create cirros2 --disk-format qcow2 --public \
+  --container-format bare --file cirros-0.4.0-x86_64-disk.img
+
+```
 ### Access
 Tungsten fabric vpp integration is available as a free-ware, which can be accessed by registering with ATSgen.
 
