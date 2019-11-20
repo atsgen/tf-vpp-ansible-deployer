@@ -91,8 +91,8 @@
 - name: update vpp image
   shell: "docker pull {{ container_registry }}/{{ item }}:{{ contrail_version_tag }}"
   with_items:
-    - contrail-node-init
-    - contrail-nodemgr
+    - tungsten-node-init
+    - tungsten-nodemgr
     - tungsten-vpp-init
     - tungsten-vpp-datapath
     - tungsten-vpp-agent
@@ -104,7 +104,7 @@
     src: tungsten-vpp.yaml.j2
     dest: "/etc/contrail/vpp/docker-compose.yaml"
 
-- name: "start contrail vpp"
+- name: "start tungsten vpp"
   docker_service:
     project_src: /etc/contrail/vpp
 
