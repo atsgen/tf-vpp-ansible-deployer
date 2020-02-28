@@ -25,7 +25,10 @@ ansible-playbook -e orchestrator=openstack -i inventory/ playbooks/configure_ins
 ansible-playbook -i inventory/ playbooks/install_openstack.yml
 # Tungsten Fabric installation:
 ansible-playbook -e orchestrator=openstack -i inventory/ playbooks/install_contrail.yml
-# NOTE: need to be logged into docker with the id that have access to container images
+# NOTE: need to be logged into docker with the id that have access to vpp integrated container images
+#     docker login <username>
+#     provide password on prompt
+
 # VPP components installation:
 ansible-playbook -e orchestrator=openstack -i inventory/ playbooks/install_vpp.yml
 ```
