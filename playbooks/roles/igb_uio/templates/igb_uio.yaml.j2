@@ -1,0 +1,10 @@
+version: '2'
+services:
+  igb-uio-install:
+    image: "{{ container_registry }}/{{ igb_uio_image_name }}:latest"
+    privileged: true
+    pid: host
+    network_mode: "host"
+    volumes:
+      - /usr/src:/usr/src
+      - /lib/modules:/lib/modules

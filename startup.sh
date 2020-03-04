@@ -28,4 +28,5 @@ git clone https://github.com/atsgen/contrail-ansible-deployer.git
 (cd contrail-ansible-deployer && git checkout $TAG)
 
 scp -r playbooks/install_vpp.yml contrail-ansible-deployer/playbooks/.
+scp -r playbooks/install_igb_uio.yml contrail-ansible-deployer/playbooks/.
 scp -r playbooks/roles/* contrail-ansible-deployer/playbooks/roles/.
