@@ -1,0 +1,31 @@
+---
+- name: "create /etc/atsgen/igb_uio"
+  file:
+    path: /etc/atsgen/igb_uio
+    state: directory
+    recurse: yes
+
+- name: set igb_uio image name
+  set_fact:
+    igb_uio_image_name: igb-uio-ubuntu
+  when: ansible_os_family == 'Debian'
+
+- name: set igb_uio image name
+  set_fact:
+    igb_uio_image_name: igb-uio-centos
+  when: ansible_os_family == 'RedHat'
+
+- name: create igb_uio compose file
+  template:
+    src: igb_uio.yaml.j2
+    dest: "/etc/atsgen/igb_uio/docker-compose.yaml"
+
+- name: "install igb_uio driver for vrouter"
+  docker_service:
+    project_src: /etc/atsgen/igb_uio
+  when: roles[instance_name].vrouter is defined and roles[instance_name].vrouter.AGENT_MODE is defined and roles[instance_name].vrouter.AGENT_MODE == 'dpdk' and roles[instance_name].vrouter.DPDK_UIO_DRIVER is defined and roles[instance_name].vrouter.DPDK_UIO_DRIVER == 'igb_uio'
+
+- name: "install igb_uio driver for vpp"
+  docker_service:
+    project_src: /etc/atsgen/igb_uio
+  when: roles[instance_name].vpp is defined and roles[instance_name].vpp.DPDK_UIO_DRIVER is defined and roles[instance_name].vpp.DPDK_UIO_DRIVER == 'igb_uio'
