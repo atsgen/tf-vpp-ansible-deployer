@@ -35,21 +35,29 @@ ansible-playbook -e orchestrator=openstack -i inventory/ playbooks/install_vpp.y
 
 Note: you will need access to container images for deploying this solution
 
-### DKMS based installation and compilation of igb_uio driver
-The prerequisite for this installation needs the Kernel headers specific to base machine OS to be installed.
+### DKMS based installation of igb_uio driver
+In case you do not have igb_uio driver installed on required computes you can use the following steps.
 
+Prerequisite:
+
+Availability of Kernel headers specific to base machine OS
+
+or it can be installed using
+
+Ubuntu:
 ```
-#Ubuntu:
  apt-get install -y linux-headers-$(uname -r)
-
-#Centos:
+```
+Centos:
+```
  yum install -y kernel-devel-`uname -r`
 ```
 
-This play will ensure that the dpdk drivers will be installable. It needs to be run before the Tungsten fabric installation command (install_contrail.yml).
+This playbook will ensures installation of igb_uio dpdk drivers on the configured nodes.
+It needs to be executed before installation of Tungsten fabric (install_contrail.yml).
 
 ```
-  ansible-playbook -e orchestrator=openstack -i inventory/ playbooks/install_igb_uio.yml
+  ansible-playbook -i inventory/ playbooks/install_igb_uio.yml
 ```
 
 
