@@ -3,7 +3,8 @@
 source $(dirname $0)/utils/functions.sh
 
 #TAG=${TAG:-v5.1}
-TAG=${TAG:-9173bb48895428dc35848d270fada5d47f920476}
+#TAG=${TAG:-9173bb48895428dc35848d270fada5d47f920476}
+TAG=${TAG:-R5.1-1}
 
 if is_centos; then
   yum install -y epel-release
